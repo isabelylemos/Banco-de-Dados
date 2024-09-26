@@ -96,7 +96,16 @@ select total_vendas() as Total de Vendas;
 
 b) 
 delimiter//
-create procedure nova_venda (id_palmito, quantidade_vendida, data_venda, preco_total) 
+create procedure nova_venda (id int, qtd_vendida int, dt_venda date, preco_total decimal (10,2)) 
+begin
+insert into venda (id_palmito, quantidade_vendida, data_venda, preco_total) values (id int, qtd_vendida int, dt_venda date, preco_total decimal (10,2)) 
+end//
+delimiter ;
+
+call nova_venda ();
+
+c)
+
 
 
 
