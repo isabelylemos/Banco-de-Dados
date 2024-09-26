@@ -83,28 +83,61 @@ group by id_palmito;
 -- 2
 -- a)
 delimiter //
-create function total_vendas()
-return decimal (10, 2)
+create function total_vendas(id int)
+returns decimal (10, 2)
 begin
 declare total decimal (10, 2);
-select sum(preco_total) into total from vendas;
+select sum(preco_total) into total from venda 
+where id_palmito = id;
 return total;
 end//
 delimiter ;
 
-select total_vendas() as Total de Vendas;
+select total_vendas(3);
 
-b) 
-delimiter//
-create procedure nova_venda (id int, qtd_vendida int, dt_venda date, preco_total decimal (10,2)) 
+-- b) 
+
+delimiter //
+create procedure nova_venda (id int, qtd_vendida int)
 begin
-insert into venda (id_palmito, quantidade_vendida, data_venda, preco_total) values (id int, qtd_vendida int, dt_venda date, preco_total decimal (10,2)) 
+declare estoque_atualizado int;
+declare preco_total_v decimal(10,2);
+declare preco_unit decimal(10,2); 
+
+select estoque_atual, preco_venda into estoque_atualizado, preco_unit from palmito where id = id_palmito;
+
+-- verificar se a quantidade a ser vendida está disponivel no estoque
+if estoque_atualizado >= qtd_vendida then
+
+-- calcular o preço total
+set preco_total_v = preco_unit*qtd_vendida;
+insert into venda (id_palmito, quantidade_vendida, data_venda, preco_total) values (id, qtd_vendida, curdate(), preco_total_v);
+
+-- atualizar estoque
+update palmito set estoque_atual = estoque_atual - qtd_vendida where id = id_palmito;
+
+end if;
 end//
 delimiter ;
 
-call nova_venda ();
+call nova_venda(3, 3);
+select * from venda;
 
-c)
+-- c
+delimiter //
+create trigger atualizar_estoque
+after insert on venda
+for each row 
+begin
+update palmito set estoque = estoque - new.quantidade_vendida where id = new.id_palmito;
+end //
+delimiter ;
+
+-- views
+
+
+
+
 
 
 
