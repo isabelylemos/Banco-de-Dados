@@ -79,7 +79,6 @@ group by id_palmito;
 -- Consulta 4:
 
 
-
 -- 2
 -- a)
 delimiter //
@@ -120,7 +119,7 @@ end if;
 end//
 delimiter ;
 
-call nova_venda(3, 3);
+call nova_venda(6, 10);
 select * from venda;
 
 -- c
@@ -133,9 +132,14 @@ update palmito set estoque = estoque - new.quantidade_vendida where id = new.id_
 end //
 delimiter ;
 
+select * from palmito;
+
 -- views
+-- a
+create view mostrar_estoque as
+select p.tipo_palmito as "Tipo de Palmito", p.estoque_atual as "Estoque Atual" from palmito p;
 
-
+select * from mostrar_estoque;
 
 
 
