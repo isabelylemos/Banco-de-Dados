@@ -80,6 +80,22 @@ group by id_palmito;
 
 
 
+-- 2
+-- a)
+delimiter //
+create function total_vendas()
+return decimal (10, 2)
+begin
+declare total decimal (10, 2);
+select sum(preco_total) into total from vendas;
+return total;
+end//
+delimiter ;
+
+select total_vendas() as Total de Vendas;
+
+b) create procedure nova_venda (id_palmito, quantidade_vendida, data_venda, preco_total) 
+
 
 
 
