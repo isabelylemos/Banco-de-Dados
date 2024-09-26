@@ -94,7 +94,10 @@ delimiter ;
 
 select total_vendas() as Total de Vendas;
 
-b) create procedure nova_venda (id_palmito, quantidade_vendida, data_venda, preco_total) 
+b) 
+delimiter//
+create procedure nova_venda (id_palmito, quantidade_vendida, data_venda, preco_total) 
+
 
 
 
