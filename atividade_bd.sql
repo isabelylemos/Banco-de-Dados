@@ -141,8 +141,13 @@ select p.tipo_palmito as "Tipo de Palmito", p.estoque_atual as "Estoque Atual" f
 
 select * from mostrar_estoque;
 
+-- b
+create view historico_vendas as
+select venda.quantidade_vendida, venda.data_venda, venda.preco_total, palmito.tipo_palmito from venda
+join palmito using (id_palmito)
+where tipo_palmito = "Açaí";
 
-
+select * from historico_vendas;
 
 
 
