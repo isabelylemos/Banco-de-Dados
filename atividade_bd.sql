@@ -103,7 +103,7 @@ declare estoque_atualizado int;
 declare preco_total_v decimal(10,2);
 declare preco_unit decimal(10,2); 
 
-select estoque_atual, preco_venda into estoque_atualizado, preco_unit from palmito where id = id_palmito;
+select estoque_atual, preco_venda into estoque_atualizado, preco_unit from palmito where id_palmito = id;
 
 -- verificar se a quantidade a ser vendida está disponivel no estoque
 if estoque_atualizado >= qtd_vendida then
@@ -113,7 +113,7 @@ set preco_total_v = preco_unit*qtd_vendida;
 insert into venda (id_palmito, quantidade_vendida, data_venda, preco_total) values (id, qtd_vendida, curdate(), preco_total_v);
 
 -- atualizar estoque
-update palmito set estoque_atual = estoque_atual - qtd_vendida where id = id_palmito;
+update palmito set estoque_atual = estoque_atual - qtd_vendida where id_palmito = id;
 
 end if;
 end//
